@@ -11,6 +11,8 @@ class MoviesController < ApplicationController
         movie = Movie.new(movie_params)
         if movie.save then
             render json: movie
+        else 
+            render json: {message: 'Failed to create movie', errors: movie.errors }, status: 400
         end
     end
 
@@ -19,6 +21,8 @@ class MoviesController < ApplicationController
         movie.update(movie_params)
         if movie.save then
             render json: movie
+        else 
+            render json: {message: 'Failed to update movie', errors: movie.errors }, status: 400
         end
     end
 
@@ -28,7 +32,7 @@ class MoviesController < ApplicationController
     end
 
     private 
-    
+
     def movie_params
         params.require(:movie).permit(:title, :description, :rating, :image)
     end
