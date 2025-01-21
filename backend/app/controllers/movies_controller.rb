@@ -1,6 +1,6 @@
 class MoviesController < ApplicationController
     def index
-        render json: Movie.all
+        render json: Movie.search(params)
     end
 
     def show
