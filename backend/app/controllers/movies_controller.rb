@@ -1,6 +1,16 @@
 class MoviesController < ApplicationController
     def index
-        render json: Movie.search(params)
+        page = params[:page].to_i 
+        per_page = params[:per_page].to_i
+        if per_page == 0 then
+            per_page = 10
+        end
+        puts params
+        puts page
+        puts per_page
+        offset = (page - 1) * per_page
+        movies = Movie.search(params).limit(per_page).offset(offset)
+        render json: movies
     end
 
     def show
