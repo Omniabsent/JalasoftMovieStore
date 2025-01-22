@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./App.css";
 
 function App() {
+  const [movies, setMovies] = useState([]);
+
+  // Load movies when the app starts
+  useEffect(() => {
+    axios.get("http://localhost:3001/movies")
+      .then((response) => {
+        setMovies(response.data);
+      })
+      .catch((error) => {
+        console.error("Couldn't fetch movies:", error);
+      });
+  }, []);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Jalasoft Movie Store</h1>
+
+      <ul>
+      {movies.map((movie) => (
+        <li>
+          {movie.title}<br></br>
+          {movie.description}<br></br>
+          {movie.rating}<br></br>
+          {movie.image}<br></br>
+          <br></br>
+        </li>
+      ))}
+      </ul>
+
     </div>
   );
 }
